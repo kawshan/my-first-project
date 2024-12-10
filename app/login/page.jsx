@@ -4,7 +4,7 @@ import LoginForm from "@/app/login/login-form";
 export default function LoginPage() {
     return (
         <div className="flex flex-col justify-center items-center min-h-screen text-black">
-        <LoginForm />
+        <LoginForm title="Sign In To EcoTech"/>
         </div>
     )
 }

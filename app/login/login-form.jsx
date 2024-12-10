@@ -3,7 +3,7 @@
 // client component for client side rendering
 import {useState} from "react";
 
-export default function LoginForm() {
+export default function LoginForm({title}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -13,13 +13,14 @@ export default function LoginForm() {
     }
 
 
+
     return (
         <div className="w-[380px] mx-auto">
 
             <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4">
                 <form className="space-y-6" onSubmit={handleSubmit}>
 
-                    <h3 className="text-center text-xl font-semibold text-gray-900 ">Sign In To EcoTech</h3>
+                    <h3 className="text-center text-xl font-semibold text-gray-900 ">{title}</h3>
 
 
                     {/*        email secttion start*/}
