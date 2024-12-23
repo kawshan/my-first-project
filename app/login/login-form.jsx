@@ -6,10 +6,40 @@ import {useState} from "react";
 export default function LoginForm({title}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [emailError,setEmailError] = useState("")
+    const [passwordError,setPasswordError] = useState("")
+
+    const validateForm = ()=>{
+        if (!email){
+            setEmailError("Email is Required")
+            return false;
+        }else {
+            setEmailError("");
+        }
+
+        if (!password){
+            setPasswordError("password is Required")
+            return false;
+        }else {
+            setPasswordError("");
+        }
+        return true;
+    }
+
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        const isValid = validateForm()
+
+        if (isValid){
+        //login form data submission
         console.log("form data", {email:email, password:password});
+        }
+
+
     }
 
 
@@ -31,6 +61,8 @@ export default function LoginForm({title}) {
                                onChange={(e) => setEmail(e.target.value)}
                                className="bg-gray-50 border-gray-300 rounded-lg text-gray-900  focus:border-red-500 block w-full p-2.5"
                                placeholder="Yourname@gmail.com"/>
+
+                        {emailError && <div className="text-red-600 text-sm mt-2">{emailError}</div>}
                     </div>
                     {/*email secttion end*/}
 
@@ -43,6 +75,8 @@ export default function LoginForm({title}) {
                                onChange={(e) => setPassword(e.target.value)}
                                className="bg-gray-50 border-gray-300 rounded-lg text-gray-900 focus:border-red-500 block w-full p-2.5"
                                placeholder="enter your password"/>
+                        {passwordError&& <div className="text-red-600 text-xs mt-2 ml-1">{passwordError}</div>}
+
                     </div>
                     {/*pass word section end*/}
 
