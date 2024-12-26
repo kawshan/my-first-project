@@ -2,6 +2,7 @@
 
 // client component for client side rendering
 import {useState} from "react";
+import {loginUser} from "@/lib/apis/server";
 
 export default function LoginForm({title}) {
     const [email, setEmail] = useState("");
@@ -29,14 +30,15 @@ export default function LoginForm({title}) {
 
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const isValid = validateForm()
 
         if (isValid){
         //login form data submission
-        console.log("form data", {email:email, password:password});
+           const login = await loginUser({email:email,password:password});
+            console.log("login response "+login)
         }
 
 
