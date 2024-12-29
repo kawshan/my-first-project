@@ -1,10 +1,14 @@
 import {getMovies} from "@/lib/apis/server";
 
 export default async function DashboardPage() {
+    // add shad cn card
+    // create movies get endpoint
+    //read dummy data
+    //render data set in the UI
 
-    const movies = await getMovies();
+    const {movies} = await getMovies();
 
-    console.log("movies \n"+movies);
+    console.log("movies \n",movies);
 
     return (
         <main>
@@ -20,14 +24,13 @@ export default async function DashboardPage() {
         {/*    body section start*/}
             <div className="container mt-8">
                 <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-4">
-                    <div className="h-96 bg-green-400">div 1</div>
-                    <div className="h-96 bg-yellow-400">div 2</div>
-                    <div className="h-96 bg-blue-400">div 3</div>
-                    <div className="h-96 bg-orange-400">div 4</div>
-                    <div className="h-96 bg-red-400">div 5</div>
-                    <div className="h-96 bg-purple-400">div 6</div>
-                    <div className="h-96 bg-lime-400">div 6</div>
-                    <div className="h-96 bg-cyan-400">div 6</div>
+                    {movies?.length &&
+                        movies.map((movie) => (
+                            <div key={movie.id} className="h-96 bg-green-400">
+                                {movie?.title}</div>
+                        ))}
+
+
                 </div>
             </div>
         {/*    body section end*/}
