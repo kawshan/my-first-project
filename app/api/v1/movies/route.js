@@ -1,18 +1,30 @@
 import {NextResponse} from "next/server";
-
-const MOVIES = [
-    {id:1,title:"harry potter 1"},
-    {id:2,title:"load of the rings"},
-    {id:3,title:"jhon wick"},
-    {id:4,title:"harry potter 2"},
-    {id:5,title:"harry potter 3"},
-    {id:6,title:"harry potter 4"},
-    {id:7,title:"harry potter 5"},
-    {id:8,title:"harry potter 6"},
-]
-
+import clientPromise from "@/lib/apis/mongodb"
 
 
 export const GET  = async (req)=>{
-    return NextResponse.json({success:true,movies:MOVIES});
+    //get movies from mongodb
+    try{
+        const client = await clientPromise();
+
+        //sample db name -> mflix
+        const db = client.db("sample_mflix");
+
+        //fetch movies from database
+        const movies = await  db
+            .collection("movies")
+            .find({})
+            .sort({metacritic:-1})
+            .limit(10)
+            .toArray();
+
+        console.log("M flix movies",movies);
+        return NextResponse.json(movies);
+
+    }catch (error){
+        console.log("mongodb Error:", error);
+    }
+
+
+
 }
