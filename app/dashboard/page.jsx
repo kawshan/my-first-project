@@ -8,6 +8,7 @@ import {  Card,
 import Image from "next/image";
 import {Badge} from "@/components/ui/badge";
 import {SiImdb} from "react-icons/si";
+import {FaStar} from "react-icons/fa";
 
 export default async function DashboardPage() {
     // add shad cn card
@@ -59,8 +60,8 @@ export default async function DashboardPage() {
                                     <div className="flex flex-row justify-between items-center">
                                     <Badge variant="success" className="font-medium">Rated: {movie?.rated ?? "N/A"}</Badge>
                                         <div className="flex flex-row gap-1 items-center">
-                                            <span className="text-sm font-medium font-semibold">
-                                            <SiImdb className="text-yellow-500 text-xl"/>
+                                            <span className="text-sm font-medium font-semibold" title="IMDB rating">
+                                            <FaStar className="text-yellow-500 text-xl"/>
                                             {movie?.imdb?.rating ?? 0}/10
                                             </span>
                                         </div>
