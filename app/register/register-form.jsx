@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import Link from "next/link";
+import {registerUser} from "@/lib/apis/server";
 
 
 const DEFAULT_ERROR = {
@@ -22,23 +23,26 @@ function RegisterForm() {
     const handleSubmitForm = async (event) => {
         event?.preventDefault();
         const formData = new FormData(event?.currentTarget);
-        const name = formData.get("name") ?? "";
-        const email = formData.get("email") ?? "";
+        const name = formData.get("name").toString();
+        const email = formData.get("email").toString();
         const password = formData.get("password") ?? "";
         const confirmPassword = formData.get("confirm-password") ?? "";
 
 
         console.log("form submitted",{name,email,password,confirmPassword});
 
-        if (name&&email&&password&&confirmPassword){
+        // if (name&&email&&password&&confirmPassword){
             if (password==confirmPassword){
                 setError(DEFAULT_ERROR)
+
+                await registerUser({name,email,password,})
+
             }else {
                 setError({error: true,message: "password dosent match"})
-                console.log("error",error);
             }
-        }
+        // }
 
+        // console.log("error",error);
 
     }
 
