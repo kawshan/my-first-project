@@ -7,6 +7,9 @@ import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import Link from "next/link";
 import {registerUser} from "@/lib/apis/server";
+import { useToast } from "@/hooks/use-toast"
+import {ToastAction} from "@/components/ui/toast";
+
 
 
 const DEFAULT_ERROR = {
@@ -20,6 +23,8 @@ function RegisterForm() {
 
     const [error,setError] = useState(DEFAULT_ERROR);
     const [isLoading,setLoading] = useState(false);
+    const { toast } = useToast()
+
 
 
     const handleSubmitForm = async (event) => {
@@ -41,6 +46,13 @@ function RegisterForm() {
                 setLoading(false);
                 if (registerResp?.error){
                     setError({error: true,message: registerResp.error})
+                }else {
+                    toast({
+                        variant: "success",
+                        title: "registration successful",
+                        description: "Please continue with login",
+                        action: <ToastAction altText="login" className="hover:bg-green-700/90">Login</ToastAction>,
+                    })
                 }
             }else {
                 setError({error: true,message: "password dosent match"})
