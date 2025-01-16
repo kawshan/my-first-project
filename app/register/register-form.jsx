@@ -1,5 +1,6 @@
 "use client"
 import {useState} from 'react';
+import { Loader2 } from "lucide-react"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
@@ -18,6 +19,7 @@ const DEFAULT_ERROR = {
 function RegisterForm() {
 
     const [error,setError] = useState(DEFAULT_ERROR);
+    const [isLoading,setLoading] = useState(false);
 
 
     const handleSubmitForm = async (event) => {
@@ -34,9 +36,12 @@ function RegisterForm() {
         // if (name&&email&&password&&confirmPassword){
             if (password==confirmPassword){
                 setError(DEFAULT_ERROR)
-
-                await registerUser({name,email,password,})
-
+                setLoading(true);
+                const registerResp  = await registerUser({name,email,password,})
+                setLoading(false);
+                if (registerResp?.error){
+                    setError({error: true,message: registerResp.error})
+                }
             }else {
                 setError({error: true,message: "password dosent match"})
             }
@@ -98,7 +103,10 @@ function RegisterForm() {
                         </div>
                     </CardContent>
                     <CardFooter className="flex justify-center">
-                        <Button className="flex-1" type="submit">Register</Button>
+                        <Button className="flex-1" type="submit" disabled={isLoading}>
+                            {isLoading && <Loader2 className="animate-spin"/>}
+                            Register
+                        </Button>
                     </CardFooter>
                 </form>
             </Card>
