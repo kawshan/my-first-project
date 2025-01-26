@@ -1,30 +1,29 @@
 "use client"
 import {useState} from 'react';
-import { Loader2 } from "lucide-react"
+import {Loader2} from "lucide-react"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 import Link from "next/link";
-import {registerUser} from "@/lib/apis/server";
-import { useToast } from "@/hooks/use-toast"
-import {ToastAction} from "@/components/ui/toast";
-
+// import {registerUser} from "@/lib/apis/server";
+import {useToast} from "@/hooks/use-toast"
+// import {ToastAction} from "@/components/ui/toast";
+import {signUp} from "@/lib/auth-client";
 
 
 const DEFAULT_ERROR = {
-    error:false,
-    message:"",
+    error: false,
+    message: "",
 }
 
 
 // keep this as a client component (functional component)
 function RegisterForm() {
 
-    const [error,setError] = useState(DEFAULT_ERROR);
-    const [isLoading,setLoading] = useState(false);
-    const { toast } = useToast()
-
+    const [error, setError] = useState(DEFAULT_ERROR);
+    const [isLoading, setLoading] = useState(false);
+    const {toast} = useToast()
 
 
     const handleSubmitForm = async (event) => {
@@ -36,27 +35,53 @@ function RegisterForm() {
         const confirmPassword = formData.get("confirm-password") ?? "";
 
 
-        console.log("form submitted",{name,email,password,confirmPassword});
+        console.log("form submitted", {name, email, password, confirmPassword});
 
         // if (name&&email&&password&&confirmPassword){
-            if (password==confirmPassword){
-                setError(DEFAULT_ERROR)
-                setLoading(true);
-                const registerResp  = await registerUser({name,email,password,})
-                setLoading(false);
-                if (registerResp?.error){
-                    setError({error: true,message: registerResp.error})
-                }else {
-                    toast({
-                        variant: "success",
-                        title: "registration successful",
-                        description: "Please continue with login",
-                        action: <ToastAction altText="login" className="hover:bg-green-700/90">Login</ToastAction>,
-                    })
+        if (password == confirmPassword) {
+            setError(DEFAULT_ERROR)
+            // setLoading(true);
+            // const registerResp  = await registerUser({name,email,password,})
+            // setLoading(false);
+            // if (registerResp?.error){
+            //     setError({error: true,message: registerResp.error})
+            // }else {
+            //     toast({
+            //         variant: "success",
+            //         title: "registration successful",
+            //         description: "Please continue with login",
+            //         action: <ToastAction altText="login" className="hover:bg-green-700/90">Login</ToastAction>,
+            //     })
+            // }
+
+            const {data, ctx} = await signUp.email({
+                email: email,
+                password: password,
+                name: name,
+                image: undefined,
+            }, {
+                onRequest: () => {
+                    // console.log("on request",ctx)
+                },
+                onSuccess: (ctx) => {
+                    console.log("onsuccess", ctx)
+                },
+                onError: (ctx) => {
+                    console.log("onerror", ctx)
+                    if (ctx){
+                        setError({error: true,message: ctx.error.message})
+                    }
                 }
-            }else {
-                setError({error: true,message: "password dosent match"})
+            });
+
+            if (data) {
+                console.log("data", data)
             }
+
+
+        } else {
+            setError({error: true, message: "password dosent match"})
+        }
         // }
 
         // console.log("error",error);
@@ -68,8 +93,8 @@ function RegisterForm() {
         <div className="flex justify-center items-center min-h-screen">
             <Card className="bg-blue-50/90 w-[350px] ">
                 <CardHeader>
-                    <CardTitle>Create an Account</CardTitle>
-                    <CardDescription>Enter Your Information To Get Started</CardDescription>
+                    <CardTitle className="text-center">Create an Account</CardTitle>
+                    <CardDescription className="text-xs text-center">Enter Your Information To Get Started</CardDescription>
                 </CardHeader>
                 <form onSubmit={handleSubmitForm}>
                     <CardContent>
@@ -89,7 +114,8 @@ function RegisterForm() {
 
                             <div className="flex flex-col space-y-1.5">
                                 <Label htmlFor="password">Password</Label>
-                                <Input id="password" type="password" name="password" placeholder="enter your password"></Input>
+                                <Input id="password" type="password" name="password"
+                                       placeholder="enter your password"></Input>
                             </div>
 
 
@@ -101,9 +127,9 @@ function RegisterForm() {
 
                             {/*form errors*/}
                             <div className="flex justify-center">
-                                {error?.error && <span className="text-red-600 text-xs text-center">{error.message}</span>}
+                                {error?.error &&
+                                    <span className="text-red-600 text-xs text-center">{error.message}</span>}
                             </div>
-
 
 
                             <div className="flex justify-center gap-1 text-xs">
