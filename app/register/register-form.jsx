@@ -128,7 +128,7 @@ function RegisterForm() {
                             {/*form errors*/}
                             <div className="flex justify-center">
                                 {error?.error &&
-                                    <span className="text-red-600 text-xs text-center">{error.message}</span>}
+                                    <span className="text-red-600 text-xs text-center animate-pulse duration-1000">{error.message}</span>}
                             </div>
 
 

@@ -1,8 +1,20 @@
-import React from 'react';
+import { headers } from "next/headers"
+import { auth } from "@/lib/auth"
 import RegisterForm from "@/app/register/register-form";
+import {redirect} from "next/navigation";
 
 // keep this as a server component
-function Page(props) {
+async function Page(props) {
+
+    const session = await auth.api.getSession({
+        headers: await headers()
+    })
+
+    if(session) {
+        redirect("/dashboard")
+    }
+
+
     return (
         <div className="container mx-auto">
             <RegisterForm></RegisterForm>
