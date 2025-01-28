@@ -25,18 +25,8 @@ export default async function DashboardPage() {
 
 
     return (
-        <main>
-            {/*navigation bar start*/}
-            <div className="bg-blue-300 w-full h-16 flex justify-start items-center">
-                <div className="container">
-                    <h1 className="text-black font-bold text-xl">M-flix Dashboard</h1>
-                </div>
-            </div>
-            {/*navigation bar end*/}
-
-
-        {/*    body section start*/}
-            <div className="container mt-8">
+            <div className="space-y-4">
+                <h1 className="text-3xl font-bold">Movies</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                     {moviesQuery?.length &&
                         moviesQuery.map((movie) => (
@@ -77,10 +67,5 @@ export default async function DashboardPage() {
 
                 </div>
             </div>
-        {/*    body section end*/}
-
-
-
-        </main>
     );
 }
