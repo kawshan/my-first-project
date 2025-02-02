@@ -7,14 +7,21 @@ import {  Card,
     CardTitle,} from "@/components/ui/card";
 import Image from "next/image";
 import {Badge} from "@/components/ui/badge";
-import {SiImdb} from "react-icons/si";
 import {FaStar} from "react-icons/fa";
+import {auth} from "@/lib/auth"
+import {headers} from "next/headers";
 
 export default async function DashboardPage() {
     // add shad cn card
     // create movies get endpoint
     //read dummy data
     //render data set in the UI
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    })
+
+    console.log("session",session)
+
 
     const moviesQuery = await getMovies();
 

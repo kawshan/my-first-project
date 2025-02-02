@@ -2,7 +2,9 @@
 
 // client component for client side rendering
 import {useState} from "react";
-import {loginUser} from "@/lib/apis/server";
+// import {loginUser} from "@/lib/apis/server";
+import {signIn} from "@/lib/auth-client";
+import {redirect} from "next/navigation";
 
 export default function LoginForm({title}) {
     const [email, setEmail] = useState("");
@@ -37,8 +39,21 @@ export default function LoginForm({title}) {
 
         if (isValid){
         //login form data submission
-           const login = await loginUser({email:email,password:password});
-            console.log("login response "+login)
+        //    const login = await loginUser({email:email,password:password});
+        //     console.log("login response "+login)
+            await signIn.email({
+                email,
+                password,
+            },{
+                onSuccess:()=>{
+                    redirect("/dashboard")
+                },
+                onError: (ctx) =>{
+                    console.log(ctx.error.message);
+                }
+            })
+
+
         }
 
 

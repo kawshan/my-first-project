@@ -1,11 +1,14 @@
 import UserNav from "@/app/dashboard/components/user-nav";
+import SidePanel from "@/app/dashboard/components/side-panel";
 
 export default function DashBoardLayout({children}) {
     return (
         <div className="flex h-screen overflow-hidden bg-gray-100">
 
             {/*side panel start*/}
-            <aside className="w-64 overflow-y-auto border-r bg-white shadow-lg">Side panel</aside>
+            <aside className="w-64 overflow-y-auto border-r bg-white shadow-lg">
+                <SidePanel/>
+            </aside>
             {/*side panel end*/}
 
 
@@ -22,6 +25,7 @@ export default function DashBoardLayout({children}) {
                 {/*dashboard page body start*/}
                 <main className="flex-1 overflow-y-auto bg-gray-100 p-6">{children}</main>
                 {/*dashboard page body end*/}
+
 
 
             </div>
