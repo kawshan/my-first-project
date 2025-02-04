@@ -1,9 +1,10 @@
 import React from 'react';
+import AddMovieForm from "@/app/dashboard/add-movie/add-movie-form";
 
-function AddMoviePage(props) {
+export default function AddMoviePage(props) {
     return (
-        <div>AddMoviePage</div>
+        <div className="space-y-4">
+            <AddMovieForm/>
+        </div>
     );
 }
-
-export default AddMoviePage;
