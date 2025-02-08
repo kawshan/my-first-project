@@ -10,9 +10,6 @@ import {Badge} from "@/components/ui/badge";
 import {FaStar} from "react-icons/fa";
 import {auth} from "@/lib/auth"
 import {headers} from "next/headers";
-import {Button} from "@/components/ui/button";
-import {Eye} from "lucide-react";
-import Link from "next/link";
 
 export default async function MoviesPage() {
     // add shad cn card
@@ -36,11 +33,7 @@ export default async function MoviesPage() {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-end">
-                <Link href="/movies" >
-                <Button variant="outline"> <Eye/> View as User</Button>
-                </Link>
-            </div>
+            <h1 className="text-3xl font-bold">Movies</h1>
             <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                 {moviesQuery?.length &&
                     moviesQuery.map((movie) => (
