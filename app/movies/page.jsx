@@ -10,8 +10,11 @@ import {Badge} from "@/components/ui/badge";
 import {FaStar} from "react-icons/fa";
 import {auth} from "@/lib/auth"
 import {headers} from "next/headers";
+import Link from "next/link";
+import {Button} from "@/components/ui/button";
+import {Eye, LayoutDashboard} from "lucide-react";
 
-export default async function MoviesPage() {
+export default async function MoviesPublicPage() {
     // add shad cn card
     // create movies get endpoint
     //read dummy data
@@ -32,8 +35,16 @@ export default async function MoviesPage() {
 
 
     return (
-        <div className="space-y-4">
-            <h1 className="text-3xl font-bold">Movies</h1>
+        <div className="container space-y-4 my-12">
+            <div className="flex flex-row justify-between items-center">
+                <h1 className="text-3xl font-bold">Browse Movies</h1>
+                <Link href="/dashboard/movies">
+                    <Button> <LayoutDashboard/> go to dashboard</Button>
+                </Link>
+            </div>
+
+
+
             <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-4 gap-4">
                 {moviesQuery?.length &&
                     moviesQuery.map((movie) => (
