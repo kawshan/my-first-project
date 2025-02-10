@@ -11,8 +11,14 @@ import {Button} from "@/components/ui/button";
 import {Loader2} from "lucide-react";
 import {useState} from "react";
 
-export default function EditMovieForm({open,onCancel,isLoading}) {
+export default function EditMovieForm({movie, open,onCancel,isLoading}) {
+    const [title, setTitle] = useState(movie?.title);
+    const [year,setYear] = useState(movie?.year);
+    const [plot, setPlot] = useState(movie?.plot);
     const [genres, setGenres] = useState([]);
+    const [poster,setPoster] = useState(movie?.poster);
+    const [rated,setRated] = useState(movie?.rated);
+    const [imdbRating,setImdbRating] = useState(movie.imdb?.rating?? 0)
 
     const genresList = GENRES.map((genre)=>({
         label: genre,
@@ -33,25 +39,25 @@ export default function EditMovieForm({open,onCancel,isLoading}) {
                         <DialogTitle>edit movie</DialogTitle>
                         <DialogDescription>update the selected movie</DialogDescription>
                     </DialogHeader>
-                </DialogContent>
+
                 <form onSubmit={handleSubmitForm}>
                     <div className="space-y-4">
 
                         <div>
                             <Label htmlFor="title">Movie Title</Label>
-                            <Input id="title" name="title" placeholder="Enter the movie title"/>
+                            <Input id="title" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Enter the movie title"/>
                         </div>
 
 
                         <div>
                             <Label htmlFor="year">Movie year</Label>
-                            <Input id="year" name="year" type="number" placeholder="Enter the year"/>
+                            <Input id="year" name="year" value={year} onChange={(e)=>setYear(Number(e.target.value))} type="number" placeholder="Enter the year"/>
                         </div>
 
 
                         <div>
                             <Label htmlFor="plot">Movie plot</Label>
-                            <Textarea id="plot" name="plot" placeholder="Enter plot"/>
+                            <Textarea id="plot" name="plot" value={plot} onChange={(e)=>setPlot(e.target.value)}  placeholder="Enter plot"/>
                         </div>
 
                         <div>
@@ -63,7 +69,7 @@ export default function EditMovieForm({open,onCancel,isLoading}) {
 
                         <div>
                             <Label htmlFor="rated">Movie Rated</Label>
-                            <Select onValueChange={(val) => setRated(val)}>
+                            <Select value={rated} onValueChange={(val) => setRated(val)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="select a rating"/>
                                 </SelectTrigger>
@@ -78,7 +84,7 @@ export default function EditMovieForm({open,onCancel,isLoading}) {
 
                         <div>
                             <Label htmlFor="poster">Poster URL</Label>
-                            <Input id="poster" name="poster" type="text" defaultValue="/public/globe.svg"
+                            <Input id="poster" name="poster" type="text" value={poster} onChange={(e)=>setPoster(e.target.value)}
                                    placeholder="enter the poster url"></Input>
                         </div>
 
@@ -94,6 +100,7 @@ export default function EditMovieForm({open,onCancel,isLoading}) {
 
 
                 </form>
+                </DialogContent>
             </Dialog>
 
         </div>

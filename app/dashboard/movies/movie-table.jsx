@@ -58,7 +58,7 @@ function MovieTable({movies}) {
                     ))}
                 </TableBody>
             </Table>
-            {editingMovie && <EditMovieForm open={true} onCancel={()=>setEditingMovie(null)} isLoading={true}/>}
+            {editingMovie && <EditMovieForm movie={editingMovie} open={true} onCancel={()=>setEditingMovie(null)} isLoading={true}/>}
         </div>
     );
 }
