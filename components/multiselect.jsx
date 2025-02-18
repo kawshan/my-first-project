@@ -13,13 +13,11 @@ import {Combobox,
     ComboboxTrigger
 } from "@/components/ui/combobox";
 
-export function Multiselect({list,label,placeholder,onValueChange}) {
-    const [value, setValue] = React.useState([]);
+export function Multiselect({list,label,placeholder,selectedItems,onValueChange}) {
 
 
     return (
-        <Combobox value={value} onValueChange={(val)=>{
-            setValue(val)
+        <Combobox value={selectedItems} onValueChange={(val)=>{
             onValueChange(val)
         }}
         className="w-full"
@@ -29,7 +27,7 @@ export function Multiselect({list,label,placeholder,onValueChange}) {
             {label && <ComboboxLabel>{label}</ComboboxLabel>}
             <ComboboxAnchor className="h-full min-h-10 flex-wrap px-3 py-2">
                 <ComboboxBadgeList>
-                    {value.map((item)=>{
+                    {selectedItems.map((item)=>{
                         const option = list.find((trick)=>trick.value===item);
 
                         if (!option) return null;

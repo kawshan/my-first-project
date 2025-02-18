@@ -11,11 +11,11 @@ import {Button} from "@/components/ui/button";
 import {Loader2} from "lucide-react";
 import {useState} from "react";
 
-export default function EditMovieForm({movie, open,onCancel,isLoading}) {
+export default function EditMovieForm({movie, open, onSubmit ,onCancel,isLoading}) {
     const [title, setTitle] = useState(movie?.title);
     const [year,setYear] = useState(movie?.year);
     const [plot, setPlot] = useState(movie?.plot);
-    const [genres, setGenres] = useState([]);
+    const [genres, setGenres] = useState(movie?.genres);
     const [poster,setPoster] = useState(movie?.poster);
     const [rated,setRated] = useState(movie?.rated);
     const [imdbRating,setImdbRating] = useState(movie.imdb?.rating?? 0)
@@ -26,7 +26,11 @@ export default function EditMovieForm({movie, open,onCancel,isLoading}) {
     }));
 
 
-    const handleSubmitForm = ()=>{
+    const handleSubmitForm =(e)=>{
+        //updated movie to database
+        e.preventDefault();
+        onSubmit({...movie,title,year,genres,poster,rated,imdb:{rating:imdbRating}})
+
 
     }
 
@@ -45,25 +49,29 @@ export default function EditMovieForm({movie, open,onCancel,isLoading}) {
 
                         <div>
                             <Label htmlFor="title">Movie Title</Label>
-                            <Input id="title" name="title" value={title} onChange={(e)=>setTitle(e.target.value)} placeholder="Enter the movie title"/>
+                            <Input id="title" name="title" value={title} onChange={(e) => setTitle(e.target.value)}
+                                   placeholder="Enter the movie title"/>
                         </div>
 
 
                         <div>
                             <Label htmlFor="year">Movie year</Label>
-                            <Input id="year" name="year" value={year} onChange={(e)=>setYear(Number(e.target.value))} type="number" placeholder="Enter the year"/>
+                            <Input id="year" name="year" value={year} onChange={(e) => setYear(Number(e.target.value))}
+                                   type="number" placeholder="Enter the year"/>
                         </div>
 
 
                         <div>
                             <Label htmlFor="plot">Movie plot</Label>
-                            <Textarea id="plot" name="plot" value={plot} onChange={(e)=>setPlot(e.target.value)}  placeholder="Enter plot"/>
+                            <Textarea id="plot" name="plot" value={plot} onChange={(e) => setPlot(e.target.value)}
+                                      placeholder="Enter plot"/>
                         </div>
 
                         <div>
                             <Label htmlFor="genres">Movie genres</Label>
                             <Multiselect
-                                list={genresList} placeholder="select movie geners" onValueChange={setGenres}
+                                list={genresList} placeholder="select movie geners" selectedItems={genres}
+                                onValueChange={setGenres}
                             />
                         </div>
 
@@ -83,8 +91,16 @@ export default function EditMovieForm({movie, open,onCancel,isLoading}) {
 
 
                         <div>
+                            <Label htmlFor="imdb">imdb rating</Label>
+                            <Input id="imdb" name="imdb" max="10.0" step="0.1" type="number"
+                                   placeholder="enter imdb rating" value={imdbRating} onChange={(e) =>setImdbRating(Number(e.target.value))} />
+                        </div>
+
+
+                        <div>
                             <Label htmlFor="poster">Poster URL</Label>
-                            <Input id="poster" name="poster" type="text" value={poster} onChange={(e)=>setPoster(e.target.value)}
+                            <Input id="poster" name="poster" type="text" value={poster}
+                                   onChange={(e) => setPoster(e.target.value)}
                                    placeholder="enter the poster url"></Input>
                         </div>
 

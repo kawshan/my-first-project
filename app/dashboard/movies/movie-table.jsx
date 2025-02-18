@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/components/ui/table"
 import {Button} from "@/components/ui/button";
 import EditMovieForm from "@/app/dashboard/movies/edit-movie-form";
+import {updateMovie} from "@/lib/actions/movie";
 
 function MovieTable({movies}) {
     const [editingMovie,setEditingMovie] = useState(null);
@@ -16,6 +17,12 @@ function MovieTable({movies}) {
     const handleEdit = (movie)=>{
         console.log("edit",movie)
         setEditingMovie(movie);
+    }
+
+    const handleEditSubmit = async (movie)=>{
+        const {title, year, plot, rated, genres, poster, imdb} = movie;
+        console.log(`movies`,movie)
+        // const resp = await  updateMovie(movie.id)
     }
 
 
@@ -58,7 +65,7 @@ function MovieTable({movies}) {
                     ))}
                 </TableBody>
             </Table>
-            {editingMovie && <EditMovieForm movie={editingMovie} open={true} onCancel={()=>setEditingMovie(null)} isLoading={true}/>}
+            {editingMovie && <EditMovieForm movie={editingMovie} open={true} onSubmit={handleEditSubmit} onCancel={()=>setEditingMovie(null)} isLoading={false}/>}
         </div>
     );
 }

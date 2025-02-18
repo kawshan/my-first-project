@@ -34,18 +34,19 @@ export default function AddMovieForm(props) {
         const year = Number(formData.get("year"));
         const plot = formData.get("plot")?.toString();
         const poster = formData.get("poster")?.toString();
+        const imdb = Number(formData.get("imdb"));
 
 
         if (title&&year&&plot&&rated&&poster){
             console.log({title, year, plot, rated,genres,poster});
             setLoading(true);
-            const resp = await createMovie({title,year, plot, rated,genres,poster});
+            const resp = await createMovie({title,year, plot, rated,genres,poster,imdb:{rating:imdb}});
             setLoading(false);
 
             if (resp.success){
                 toast({
                     variant: "success",
-                    title: "Movie added",
+                    title: "Movie added successfully",
                     description: "movie added successfully",
                 })
             }
@@ -90,7 +91,7 @@ export default function AddMovieForm(props) {
                         <div>
                             <Label htmlFor="genres">Movie genres</Label>
                             <Multiselect
-                                list={genresList} placeholder="select movie geners" onValueChange={setGenres}
+                                list={genresList} placeholder="select movie geners" selectedItems={genres} onValueChange={setGenres}
                             />
                         </div>
 
@@ -106,6 +107,12 @@ export default function AddMovieForm(props) {
                                     ))}
                                 </SelectContent>
                             </Select>
+                        </div>
+
+
+                        <div>
+                            <Label htmlFor="imdb">imdb rating</Label>
+                            <Input id="imdb" name="imdb" max="10.0" step="0.1" type="number" placeholder="enter imdb rating" />
                         </div>
 
 
