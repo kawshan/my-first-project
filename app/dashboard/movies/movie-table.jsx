@@ -4,10 +4,14 @@ import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow,} from "@/compo
 import {Button} from "@/components/ui/button";
 import EditMovieForm from "@/app/dashboard/movies/edit-movie-form";
 import {updateMovie} from "@/lib/actions/movie";
+import {useRouter} from "next/navigation";
 
 function MovieTable({movies}) {
+    const [isSaving, setIsSaving] = useState(false);
     const [editingMovie,setEditingMovie] = useState(null);
     const [deletingMovie,setDeletingMovie] = useState(null);
+    const router = useRouter();
+
 
 
 
@@ -20,9 +24,17 @@ function MovieTable({movies}) {
     }
 
     const handleEditSubmit = async (movie)=>{
-        const {title, year, plot, rated, genres, poster, imdb} = movie;
+        const {id,title, year, plot, rated, genres, poster, imdb} = movie;
         console.log(`movies`,movie)
-        // const resp = await  updateMovie(movie.id)
+        setIsSaving(true);
+        const resp = await  updateMovie(id,{title,year,plot,rated,genres,poster,imdb});
+        setIsSaving(false);
+        if (resp?.success){
+            setEditingMovie(null);
+            console.log("movie updated");
+            router.refresh();
+
+        }
     }
 
 
@@ -65,7 +77,7 @@ function MovieTable({movies}) {
                     ))}
                 </TableBody>
             </Table>
-            {editingMovie && <EditMovieForm movie={editingMovie} open={true} onSubmit={handleEditSubmit} onCancel={()=>setEditingMovie(null)} isLoading={false}/>}
+            {editingMovie && <EditMovieForm movie={editingMovie} open={true} onSubmit={handleEditSubmit} onCancel={()=>setEditingMovie(null)} isLoading={isSaving}/>}
         </div>
     );
 }

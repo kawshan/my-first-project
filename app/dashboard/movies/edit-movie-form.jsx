@@ -29,7 +29,7 @@ export default function EditMovieForm({movie, open, onSubmit ,onCancel,isLoading
     const handleSubmitForm =(e)=>{
         //updated movie to database
         e.preventDefault();
-        onSubmit({...movie,title,year,genres,poster,rated,imdb:{rating:imdbRating}})
+        onSubmit({...movie,title,year,plot,genres,poster,rated,imdb:{rating:imdbRating}})
 
 
     }
